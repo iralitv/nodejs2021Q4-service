@@ -4,6 +4,7 @@ class Task {
   constructor({
     id = uuidv4(),
     title = 'TASK',
+    order = 0,
     description = 'make people happier',
     userId = null,
     boardId = null,
@@ -11,6 +12,7 @@ class Task {
   } = {}) {
     this.id = id;
     this.title = title;
+    this.order = order;
     this.description = description;
     this.userId = userId;
     this.boardId = boardId;

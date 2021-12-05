@@ -4,27 +4,21 @@ const db = {
   Users: [
     {
         "id": "af987807-a8f3-4222-b098-fc52b4d31ef7",
-        "name": "USER",
+        "name": "USER 1",
         "login": "user"
     },
     {
         "id": "6cfcf39f-2cfe-4338-9737-2b69d5e334b9",
-        "name": "USER",
+        "name": "USER 2",
         "login": "user"
     },
     {
         "id": "ee37e3ad-396c-4e36-b3e5-cf2cf5303d6c",
-        "name": "USER",
+        "name": "USER 3",
         "login": "user"
     }
 ],
-  Boards: [
-    {
-        "id": "ecd576ba-30ba-44bc-8a5c-90ef21a56861",
-        "title": "lol",
-        "columns": []
-    }
-],
+  Boards: [],
   Tasks: [],
   removeUsersService: (user) => {
     const updatedTasks = db.Tasks.map(task => {
@@ -43,6 +37,8 @@ const db = {
 
       db.Tasks = filteredTasks;
     }
+  },
+  removeTasksService: () => {
   },
 }
 
@@ -76,7 +72,7 @@ const updateEntity = (table, id, data) => {
 };
 
 const removeEntity = (table, id) => {
-  const entity = getEntityById(id);
+  const entity = getEntityById(table, id);
 
   db[`remove${table}Service`](entity);
 

@@ -19,7 +19,7 @@ router.route('/:id').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
   responceWrapper(res, async () => {
     const board = await boardsService.create(Board.fromRequest(req.body));
-    res.status(200).send(Board.toResponse(board));
+    res.status(201).send(Board.toResponse(board));
   })
 })
 

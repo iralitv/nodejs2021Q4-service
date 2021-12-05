@@ -21,7 +21,7 @@ router.route('/').post(async (req, res) => {
   responceWrapper(res, async () => {
     const { boardId } = req.params;
     const task = await tasksService.create(boardId, Task.fromRequest({ ...req.body, boardId }));
-    res.status(200).send(task);
+    res.status(201).send(task);
   })
 })
 
@@ -35,8 +35,8 @@ router.route('/:taskId').put(async (req, res) => {
 
 router.route('/:taskId').delete(async (req, res) => {
   responceWrapper(res, async () => {
-    const { boardId, taskId } = req.params;
-    await tasksService.remove(boardId, taskId);
+    const { taskId } = req.params;
+    await tasksService.remove(taskId);
     res.status(204).send();
   })
 })

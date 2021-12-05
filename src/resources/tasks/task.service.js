@@ -8,6 +8,6 @@ const create = async (boardId, data) => tasksRepo.create(boardId, data);
 
 const update = async (boardId, taskId, data) => tasksRepo.update(boardId, taskId, data);
 
-const remove = async (boardId, taskId) => tasksRepo.remove(boardId, taskId);
+const remove = async (taskId) => tasksRepo.remove(taskId);
 
 module.exports = { getAll, getById, create, update, remove };

@@ -54,17 +54,11 @@ const update = (boardId, taskId, data) => {
   return updatedTask;
 };
 
-const remove = (boardId, taskId) => {
-  const board = DB.getEntityById('Boards', boardId);
-
-  if (!board) {
-    throw new Error(`Board with id ${boardId} not found`);
-  }
-
+const remove = (taskId) => {
   const task = DB.getEntityById(TABLE, taskId);
 
   if (!task) {
-    throw new Error(`Task with id ${boardId} not found`);
+    throw new Error(`Task with id ${task} not found`);
   }
 
   DB.removeEntity(TABLE, taskId);
