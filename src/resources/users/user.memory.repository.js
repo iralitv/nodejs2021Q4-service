@@ -8,8 +8,7 @@ const getById = (id) => {
   const user = DB.getEntityById(TABLE, id);
 
   if (!user) {
-// something
-    throw new Error('User not found')
+    throw new Error(`User with id ${id} not found`);
   }
 
   return user;
@@ -21,17 +20,17 @@ const update = (id, data) => {
   const updatedUser = DB.updateEntity(TABLE, id, data);
   
   if (!updatedUser) {
-    // something
+    throw new Error(`User with id ${id} not found`);
   }
 
   return updatedUser;
 };
 
 const remove = (id) => {
-  const user = DB.getAllEntities(TABLE);
+  const user = DB.getEntityById(TABLE, id);
 
   if (!user) {
-    // something
+    throw new Error(`User with id ${id} not found`);
   }
 
   DB.removeEntity(TABLE, id);

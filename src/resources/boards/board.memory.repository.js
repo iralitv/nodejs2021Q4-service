@@ -27,7 +27,7 @@ const update = (id, data) => {
 };
 
 const remove = (id) => {
-  const board = DB.getAllEntities(TABLE);
+  const board = DB.getEntityById(TABLE, id);
 
   if (!board) {
     throw new Error(`Board with id ${id} not found`);

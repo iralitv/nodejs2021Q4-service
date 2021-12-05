@@ -4,30 +4,30 @@ const Board = require('./board.model');
 const boardsService = require('./board.service');
 
 router.route('/').get(async (req, res) => {
-  const users = await boardsService.getAll();
-  res.json(users.map(Board.toResponse));
+  const boards = await boardsService.getAll();
+  res.json(boards.map(Board.toResponse));
 });
 
 router.route('/:id').get(async (req, res) => {
   responceWrapper(res, async () => {
     const { id } = req.params;
-    const user = await boardsService.getById(id);
-    res.status(200).send(Board.toResponse(user));
+    const board = await boardsService.getById(id);
+    res.status(200).send(Board.toResponse(board));
   })
 });
 
 router.route('/').post(async (req, res) => {
   responceWrapper(res, async () => {
-    const user = await boardsService.create(Board.fromRequest(req.body));
-    res.status(200).send(Board.toResponse(user));
+    const board = await boardsService.create(Board.fromRequest(req.body));
+    res.status(200).send(Board.toResponse(board));
   })
 })
 
 router.route('/:id').put(async (req, res) => {
   responceWrapper(res, async () => {
     const { id } = req.params;
-    const user = await boardsService.update(id, Board.fromRequest(req.body));
-    res.status(200).send(Board.toResponse(user));
+    const board = await boardsService.update(id, Board.fromRequest(req.body));
+    res.status(200).send(Board.toResponse(board));
   })
 })
 

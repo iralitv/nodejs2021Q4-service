@@ -18,8 +18,32 @@ const db = {
         "login": "user"
     }
 ],
-  Boards: [],
+  Boards: [
+    {
+        "id": "ecd576ba-30ba-44bc-8a5c-90ef21a56861",
+        "title": "lol",
+        "columns": []
+    }
+],
   Tasks: [],
+  removeUsersService: (user) => {
+    const updatedTasks = db.Tasks.map(task => {
+      if (task.userId === user.id) {
+        return { ...task, userId: null }
+      }
+
+      return task;
+    });
+
+    db.Tasks = updatedTasks;
+  },
+  removeBoardsService: (board) => {
+    if (board) {
+      const filteredTasks = db.Tasks.filter(task => task.boardId !== board.id);
+
+      db.Tasks = filteredTasks;
+    }
+  },
 }
 
 // const initValues = () => {
@@ -35,7 +59,11 @@ const getAllEntities = table => db[table].filter(entity => entity);
 
 const getEntityById = (table, id) => db[table].find(entity => entity.id === id);
 
-const createEntity = (table, data) => db[table].push(data);
+const createEntity = (table, data) => {
+  db[table].push(data);
+
+  return getEntityById(table, data.id);
+}
 
 const updateEntity = (table, id, data) => {
   const old = getEntityById(table, id);
@@ -48,6 +76,10 @@ const updateEntity = (table, id, data) => {
 };
 
 const removeEntity = (table, id) => {
+  const entity = getEntityById(id);
+
+  db[`remove${table}Service`](entity);
+
   const index = db[table].findIndex((item) => item.id === id);
   db[table].splice(index, 1);
 };

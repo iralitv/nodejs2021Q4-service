@@ -19,6 +19,7 @@ router.route('/:id').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
   responceWrapper(res, async () => {
     const user = await usersService.create(User.fromRequest(req.body));
+    console.log('user', user);
     res.status(200).send(User.toResponse(user));
   })
 })
