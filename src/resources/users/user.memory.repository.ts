@@ -1,3 +1,4 @@
+export {};
 const DB = require('../../database');
 
 const TABLE = "Users";

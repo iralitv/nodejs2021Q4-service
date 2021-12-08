@@ -1,3 +1,4 @@
+export {};
 const router = require('express').Router({mergeParams: true});
 const { responceWrapper } = require('../../error');
 const Task = require('./task.model');

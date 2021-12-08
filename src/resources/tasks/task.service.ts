@@ -1,3 +1,4 @@
+export {};
 const tasksRepo = require('./task.memory.repository');
 
 const getAll = async (boardId) => tasksRepo.getAll(boardId);

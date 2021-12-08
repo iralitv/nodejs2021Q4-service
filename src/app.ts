@@ -1,3 +1,4 @@
+export {};
 const express = require('express');
 const morgan = require('morgan');
 const swaggerUI = require('swagger-ui-express');

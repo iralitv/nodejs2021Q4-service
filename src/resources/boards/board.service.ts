@@ -1,3 +1,4 @@
+export {};
 const boardsRepo = require('./board.memory.repository');
 
 const getAll = async () => boardsRepo.getAll();

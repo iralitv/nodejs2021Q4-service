@@ -1,6 +1,25 @@
+export {};
 const { v4: uuidv4 } = require('uuid');
 
+interface ITask {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
+}
+
 class Task {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
+
   constructor({
     id = uuidv4(),
     title = 'TASK',
@@ -19,7 +38,7 @@ class Task {
     this.columnId = columnId;
   }
 
-  static fromRequest(body) {
+  static fromRequest(body: ITask): ITask {
     return new Task(body);
   }
 }
