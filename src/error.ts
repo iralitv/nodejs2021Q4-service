@@ -1,12 +1,8 @@
-const errorHandler = (err, req, res, next) => {
-  if (err) {
-    res.sendStatus(500);
-  }
+import { Response } from "express";
 
-  next();
-}
+type CallbackType = () => void;
 
-const responceWrapper = async (res, cb) => {
+const responceWrapper = async (res: Response, cb: CallbackType) => {
   try {
     await cb();
   } catch(err) {
@@ -15,6 +11,5 @@ const responceWrapper = async (res, cb) => {
 }
 
 module.exports = {
-  errorHandler,
   responceWrapper,
 };

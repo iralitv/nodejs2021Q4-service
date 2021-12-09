@@ -1,11 +1,13 @@
+import { IBoard } from './board.model';
+
 const DB = require('../../database');
 
 const TABLE = "Boards";
 
-const getAll = () => DB.getAllEntities(TABLE);
+const getAll = (): Array<IBoard> => DB.getAllEntities(TABLE);
 
-const getById = (id) => {
-  const board = DB.getEntityById(TABLE, id);
+const getById = (id: string): IBoard => {
+  const board: IBoard = DB.getEntityById(TABLE, id);
 
   if (!board) {
     throw new Error(`Board with id ${id} not found`);
@@ -14,10 +16,10 @@ const getById = (id) => {
   return board;
 }
 
-const create = (data) => DB.createEntity(TABLE, data);
+const create = (data: IBoard): IBoard => DB.createEntity(TABLE, data);
 
-const update = (id, data) => {
-  const updatedBoard = DB.updateEntity(TABLE, id, data);
+const update = (id: string, data: IBoard): IBoard => {
+  const updatedBoard: IBoard = DB.updateEntity(TABLE, id, data);
   
   if (!updatedBoard) {
     throw new Error(`Board with id ${id} not found`);
@@ -26,8 +28,8 @@ const update = (id, data) => {
   return updatedBoard;
 };
 
-const remove = (id) => {
-  const board = DB.getEntityById(TABLE, id);
+const remove = (id: string): void => {
+  const board: IBoard = DB.getEntityById(TABLE, id);
 
   if (!board) {
     throw new Error(`Board with id ${id} not found`);

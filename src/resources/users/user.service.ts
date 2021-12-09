@@ -1,14 +1,16 @@
+import { IUser } from './user.model';
+
 export {};
 const usersRepo = require('./user.memory.repository');
 
-const getAll = async () => usersRepo.getAll();
+const getAll = async (): Promise<Array<IUser>> => usersRepo.getAll();
 
-const getById = async (id) => usersRepo.getById(id);
+const getById = async (id: string): Promise<IUser> => usersRepo.getById(id);
 
-const create = async (data) => usersRepo.create(data);
+const create = async (data: IUser): Promise<IUser> => usersRepo.create(data);
 
-const update = async (id, data) => usersRepo.update(id, data);
+const update = async (id: string, data: IUser) => usersRepo.update(id, data);
 
-const remove = async (id) => usersRepo.remove(id);
+const remove = async (id: string) => usersRepo.remove(id);
 
 module.exports = { getAll, getById, create, update, remove };

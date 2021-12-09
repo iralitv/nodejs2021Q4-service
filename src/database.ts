@@ -1,4 +1,21 @@
-const db = {
+import { IUser } from './resources/users/user.model';
+import { IBoard } from './resources/boards/board.model';
+import { ITask } from './resources/tasks/task.model';
+
+type TableDataItemType = IUser | IBoard | ITask;
+
+type DBType = {
+  Users: Array<IUser> | [],
+  Boards: Array<IBoard> | [],
+  Tasks: Array<ITask> | [],
+  removeUsersService: (user: TableDataItemType) => void;
+  removeBoardsService: (board: TableDataItemType) => void;
+  removeTasksService: (task?: TableDataItemType) => void;
+}
+
+type TableDataNameType = 'Users' | 'Boards' | 'Tasks';
+
+const db: DBType = {
   Users: [
     {
         "id": "af987807-a8f3-4222-b098-fc52b4d31ef7",
@@ -15,7 +32,7 @@ const db = {
         "name": "USER 3",
         "login": "user"
     }
-],
+  ],
   Boards: [],
   Tasks: [],
   removeUsersService: (user) => {
@@ -31,50 +48,43 @@ const db = {
   },
   removeBoardsService: (board) => {
     if (board) {
-      const filteredTasks = db.Tasks.filter(task => task.boardId !== board.id);
+      const filteredTasks = db.Tasks.filter((task: ITask) => task.boardId !== board.id);
 
       db.Tasks = filteredTasks;
     }
   },
   removeTasksService: () => {
+    // do nothing
   },
 }
 
-// const initValues = () => {
-//   for (let i = 0; i < 3; i += 1) {
-//     db.Users.push(new User())
-//   }
-//   // to do for board and tasks
-// };
+const getAllEntities = (table: TableDataNameType) => db[table].filter((entity: TableDataItemType) => entity);
 
-// initValues();
+const getEntityById = (table: TableDataNameType, id: string) => db[table].find((entity: TableDataItemType) => entity.id === id);
 
-const getAllEntities = table => db[table].filter(entity => entity);
-
-const getEntityById = (table, id) => db[table].find(entity => entity.id === id);
-
-const createEntity = (table, data) => {
-  db[table].push(data);
+const createEntity = (table: TableDataNameType, data: TableDataItemType) => {
+  db[table].push(data as never);
 
   return getEntityById(table, data.id);
 }
 
-const updateEntity = (table, id, data) => {
+const updateEntity = (table: TableDataNameType, id: string, data: TableDataItemType) => {
   const old = getEntityById(table, id);
 
   if (old) {
-    db[table][db[table].indexOf(old)] = { ...data, id };
+    const index: number = db[table].findIndex((entity: TableDataItemType) => entity.id === old.id)
+    db[table][index] = { ...data, id };
   }
 
   return getEntityById(table, id);
 };
 
-const removeEntity = (table, id) => {
+const removeEntity = (table: TableDataNameType, id: string) => {
   const entity = getEntityById(table, id);
 
   db[`remove${table}Service`](entity);
 
-  const index = db[table].findIndex((item) => item.id === id);
+  const index = db[table].findIndex((item: TableDataItemType) => item.id === id);
   db[table].splice(index, 1);
 };
 

@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction } from 'express';
+
 export {};
 const express = require('express');
 const morgan = require('morgan');
@@ -16,7 +18,7 @@ app.use(morgan('tiny'));
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use('/', (req, res, next) => {
+app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
     return;
@@ -24,13 +26,13 @@ app.use('/', (req, res, next) => {
   next();
 });
 
-app.use((err, req, res, next) => {
-  if (err) {
-    res.status(500).json({ message: err.message });
-  }
+// app.use((err, req, res, next) => {
+//   if (err) {
+//     res.status(500).json({ message: err.message });
+//   }
 
-  next();
-});
+//   next();
+// });
 
 app.use('/users', userRouter);
 app.use('/boards', boardRouter);

@@ -1,11 +1,13 @@
+import { IUser } from './user.model';
+
 export {};
 const DB = require('../../database');
 
 const TABLE = "Users";
 
-const getAll = () => DB.getAllEntities(TABLE);
+const getAll = (): Array<IUser> => DB.getAllEntities(TABLE);
 
-const getById = (id) => {
+const getById = (id: string): IUser => {
   const user = DB.getEntityById(TABLE, id);
 
   if (!user) {
@@ -15,10 +17,10 @@ const getById = (id) => {
   return user;
 }
 
-const create = (data) => DB.createEntity(TABLE, data);
+const create = (data: IUser) => DB.createEntity(TABLE, data);
 
-const update = (id, data) => {
-  const updatedUser = DB.updateEntity(TABLE, id, data);
+const update = (id: string, data: IUser): IUser => {
+  const updatedUser: IUser = DB.updateEntity(TABLE, id, data);
   
   if (!updatedUser) {
     throw new Error(`User with id ${id} not found`);
@@ -27,8 +29,8 @@ const update = (id, data) => {
   return updatedUser;
 };
 
-const remove = (id) => {
-  const user = DB.getEntityById(TABLE, id);
+const remove = (id: string) => {
+  const user: IUser = DB.getEntityById(TABLE, id);
 
   if (!user) {
     throw new Error(`User with id ${id} not found`);

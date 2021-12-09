@@ -1,9 +1,11 @@
+import { ITask } from './task.model';
+
 export {};
 const DB = require('../../database');
 
 const TABLE = "Tasks";
 
-const getAll = (boardId) => {
+const getAll = (boardId: string): Array<ITask> => {
   const board = DB.getEntityById('Boards', boardId);
 
   if (!board) {
@@ -13,7 +15,7 @@ const getAll = (boardId) => {
   return DB.getAllEntities(TABLE);
 }
 
-const getById = (boardId, taskId) => {
+const getById = (boardId: string, taskId: string): ITask => {
   const board = DB.getEntityById('Boards', boardId);
 
   if (!board) {
@@ -29,7 +31,7 @@ const getById = (boardId, taskId) => {
   return task;
 }
 
-const create = (boardId, data) => {
+const create = (boardId: string, data: ITask): ITask => {
   const board = DB.getEntityById('Boards', boardId);
 
   if (!board) {
@@ -39,7 +41,7 @@ const create = (boardId, data) => {
   return DB.createEntity(TABLE, data);
 }
 
-const update = (boardId, taskId, data) => {
+const update = (boardId: string, taskId: string, data: ITask): ITask => {
   const board = DB.getEntityById('Boards', boardId);
 
   if (!board) {
@@ -55,7 +57,7 @@ const update = (boardId, taskId, data) => {
   return updatedTask;
 };
 
-const remove = (taskId) => {
+const remove = (taskId: string) => {
   const task = DB.getEntityById(TABLE, taskId);
 
   if (!task) {
