@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
-    // "strict": true,  
+    "strict": true,  
   },
   "include": [
     "src/**/*.ts"

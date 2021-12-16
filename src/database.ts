@@ -8,6 +8,9 @@ type DBType = {
   Users: Array<IUser> | [],
   Boards: Array<IBoard> | [],
   Tasks: Array<ITask> | [],
+}
+
+type DBServicesType = {
   removeUsersService: (user: TableDataItemType) => void;
   removeBoardsService: (board: TableDataItemType) => void;
   removeTasksService: (task?: TableDataItemType) => void;
@@ -35,6 +38,9 @@ const db: DBType = {
   ],
   Boards: [],
   Tasks: [],
+}
+
+const dbServices: DBServicesType = {
   removeUsersService: (user) => {
     const updatedTasks = db.Tasks.map(task => {
       if (task.userId === user.id) {
@@ -58,9 +64,12 @@ const db: DBType = {
   },
 }
 
-const getAllEntities = (table: TableDataNameType) => db[table].filter((entity: TableDataItemType) => entity);
+const getAllEntities = (table: TableDataNameType) => db[table];
 
-const getEntityById = (table: TableDataNameType, id: string) => db[table].find((entity: TableDataItemType) => entity.id === id);
+const getEntityById = (table: TableDataNameType, id?: string) => {
+  const array: Array<(IUser | IBoard| ITask)> = [...db[table]];
+  return array.find((entity: TableDataItemType) => entity.id === id)
+}
 
 const createEntity = (table: TableDataNameType, data: TableDataItemType) => {
   db[table].push(data as never);
@@ -80,9 +89,9 @@ const updateEntity = (table: TableDataNameType, id: string, data: TableDataItemT
 };
 
 const removeEntity = (table: TableDataNameType, id: string) => {
-  const entity = getEntityById(table, id);
+  const entity = getEntityById(table, id) || {};
 
-  db[`remove${table}Service`](entity);
+  dbServices[`remove${table}Service`](entity);
 
   const index = db[table].findIndex((item: TableDataItemType) => item.id === id);
   db[table].splice(index, 1);
