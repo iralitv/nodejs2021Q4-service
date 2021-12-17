@@ -45,6 +45,11 @@ class Task {
     this.columnId = columnId;
   }
 
+  /**
+   * Returns formatted props for task from response body
+   * @param body props of task from responce ITask
+   * @returns Formatted entity of task ITask
+   */
   static fromRequest(body: ITask): ITask {
     return new Task(body);
   }

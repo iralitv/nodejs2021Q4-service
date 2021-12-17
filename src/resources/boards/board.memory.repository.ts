@@ -35,7 +35,7 @@ const create = (data: IBoard): IBoard => DB.createEntity(TABLE, data);
 /**
  * Update corresponding Board (finds Board by id) with data. Returns updated Board or Throws error, if Board doesn't exist
  * @param id id of Board string
- * @param data data for updating a new Board IBoard
+ * @param data data for updating an existing Board IBoard
  * @returns updated Board IBoard
  */
 const update = (id: string, data: IBoard): IBoard => {

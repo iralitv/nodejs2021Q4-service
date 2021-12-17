@@ -28,11 +28,22 @@ class User {
     this.password = password;
   }
 
+  /**
+   * Returns formatted props for user (without password field) 
+   * to put them in the request body
+   * @param user props of user IUser
+   * @returns Formatted entity of user IUser
+   */
   static toResponse(user: IUser): IUser {
     const { id, name, login } = user;
     return { id, name, login };
   }
 
+  /**
+   * Returns formatted props for user from response body
+   * @param body props of user from responce IUser
+   * @returns Formatted entity of user IUser
+   */
   static fromRequest(body: IUser): IUser {
     return new User(body);
   }
