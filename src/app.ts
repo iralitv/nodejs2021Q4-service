@@ -1,3 +1,6 @@
+import { Request, Response, NextFunction } from 'express';
+
+export {};
 const express = require('express');
 const morgan = require('morgan');
 const swaggerUI = require('swagger-ui-express');
@@ -7,7 +10,6 @@ const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
 
-
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
@@ -16,19 +18,11 @@ app.use(morgan('tiny'));
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use('/', (req, res, next) => {
+app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
     return;
   }
-  next();
-});
-
-app.use((err, req, res, next) => {
-  if (err) {
-    res.status(500).json({ message: err.message });
-  }
-
   next();
 });
 
