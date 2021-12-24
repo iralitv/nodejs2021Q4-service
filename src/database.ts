@@ -55,6 +55,10 @@ const dbServices: DBServicesType = {
       return task;
     });
 
+    
+
+    console.log('updatedTasks', updatedTasks);
+
     db.Tasks = updatedTasks;
   },
   /**
@@ -140,6 +144,7 @@ const removeEntity = (table: TableDataNameType, id: string): void => {
   dbServices[`remove${table}Service`](entity);
 
   const index = db[table].findIndex((item: TableDataItemType) => item.id === id);
+
   db[table].splice(index, 1);
 };
 
