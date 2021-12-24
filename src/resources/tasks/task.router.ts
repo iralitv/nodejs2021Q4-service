@@ -8,7 +8,7 @@ const Task = require('./task.model');
 const tasksService = require('./task.service');
 
 router.route('/').get(async (req: Request, res: Response, next: NextFunction) => {
-  responceWrapper(res, async () => {
+  responceWrapper(res, req, async () => {
     const { boardId } = req.params;
     const tasks = await tasksService.getAll(boardId);
 
@@ -22,7 +22,7 @@ router.route('/').get(async (req: Request, res: Response, next: NextFunction) =>
 });
 
 router.route('/:taskId').get(async (req: Request, res: Response, next: NextFunction) => {
-  responceWrapper(res, async () => {
+  responceWrapper(res, req, async () => {
     const { boardId, taskId } = req.params;
     const task = await tasksService.getById(boardId, taskId);
   
@@ -36,7 +36,7 @@ router.route('/:taskId').get(async (req: Request, res: Response, next: NextFunct
 });
 
 router.route('/').post(async (req: Request, res: Response, next: NextFunction) => {
-  responceWrapper(res, async () => {
+  responceWrapper(res, req, async () => {
     const { boardId } = req.params;
     const task = await tasksService.create(boardId, Task.fromRequest({ ...req.body, boardId }));
   
@@ -50,7 +50,7 @@ router.route('/').post(async (req: Request, res: Response, next: NextFunction) =
 });
 
 router.route('/:taskId').put(async (req: Request, res: Response, next: NextFunction) => {
-  responceWrapper(res, async () => {
+  responceWrapper(res, req, async () => {
     const { boardId, taskId } = req.params;
     const task = await tasksService.update(boardId, taskId, Task.fromRequest({ ...req.body, boardId }));
   
@@ -64,7 +64,7 @@ router.route('/:taskId').put(async (req: Request, res: Response, next: NextFunct
 });
 
 router.route('/:taskId').delete(async (req: Request, res: Response) => {
-  responceWrapper(res, async () => {
+  responceWrapper(res, req, async () => {
     const { taskId } = req.params;
     await tasksService.remove(taskId);
     res.status(204).send();
