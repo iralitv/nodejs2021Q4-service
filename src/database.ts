@@ -55,10 +55,6 @@ const dbServices: DBServicesType = {
       return task;
     });
 
-    
-
-    console.log('updatedTasks', updatedTasks);
-
     db.Tasks = updatedTasks;
   },
   /**
