@@ -16,15 +16,7 @@ const getAll = (): Array<IUser> => DB.getAllEntities(TABLE);
  * @param id id of user string
  * @returns user item IUser
  */
-const getById = (id: string): IUser => {
-  const user = DB.getEntityById(TABLE, id);
-
-  if (!user) {
-    throw new Error(`User with id ${id} not found`);
-  }
-
-  return user;
-}
+const getById = (id: string): IUser => DB.getEntityById(TABLE, id);
 
 /**
  * Create user with data. Returns created user
@@ -40,15 +32,7 @@ const create = (data: IUser) => DB.createEntity(TABLE, data);
  * @param data data for updating an existing user IUser
  * @returns updated user IUser
  */
-const update = (id: string, data: IUser): IUser => {
-  const updatedUser: IUser = DB.updateEntity(TABLE, id, data);
-  
-  if (!updatedUser) {
-    throw new Error(`User with id ${id} not found`);
-  }
-
-  return updatedUser;
-};
+const update = (id: string, data: IUser): IUser => DB.updateEntity(TABLE, id, data);
 
 /**
  * Delete corresponding user (finds user by id). 
@@ -60,10 +44,12 @@ const remove = (id: string) => {
   const user: IUser = DB.getEntityById(TABLE, id);
 
   if (!user) {
-    throw new Error(`User with id ${id} not found`);
+    return null;
   }
 
   DB.removeEntity(TABLE, id);
+
+  return user;
 }
 
 module.exports = { getAll, getById, create, update, remove };

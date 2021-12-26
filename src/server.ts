@@ -1,7 +1,11 @@
+import { logger } from "./logger";
+import config from './common/config';
+
 export {};
-const { PORT } = require('./common/config');
 const app = require('./app');
 
+const { PORT } = config;
+
 app.listen(PORT, () =>
-  console.log(`App is running on http://localhost:${PORT}`)
+  logger.info(`App is running on http://localhost:${PORT}`)
 );

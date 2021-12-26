@@ -15,15 +15,7 @@ const getAll = (): Array<IBoard> => DB.getAllEntities(TABLE);
  * @param id id of Board string
  * @returns Board item IBoard
  */
-const getById = (id: string): IBoard => {
-  const board: IBoard = DB.getEntityById(TABLE, id);
-
-  if (!board) {
-    throw new Error(`Board with id ${id} not found`);
-  }
-
-  return board;
-}
+const getById = (id: string): IBoard => DB.getEntityById(TABLE, id);
 
 /**
  * Create Board with data. Returns created Board
@@ -38,26 +30,18 @@ const create = (data: IBoard): IBoard => DB.createEntity(TABLE, data);
  * @param data data for updating an existing Board IBoard
  * @returns updated Board IBoard
  */
-const update = (id: string, data: IBoard): IBoard => {
-  const updatedBoard: IBoard = DB.updateEntity(TABLE, id, data);
-  
-  if (!updatedBoard) {
-    throw new Error(`Board with id ${id} not found`);
-  }
-
-  return updatedBoard;
-};
+const update = (id: string, data: IBoard): IBoard => DB.updateEntity(TABLE, id, data);
 
 /**
  * Delete corresponding Board (finds Board by id). Throws error, if Board doesn't exist
  * @param id id of Board string
  * @returns void
  */
-const remove = (id: string): void => {
+const remove = (id: string) => {
   const board: IBoard = DB.getEntityById(TABLE, id);
 
   if (!board) {
-    throw new Error(`Board with id ${id} not found`);
+    return;
   }
 
   DB.removeEntity(TABLE, id);
