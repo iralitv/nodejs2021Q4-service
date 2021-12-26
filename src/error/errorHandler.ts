@@ -12,15 +12,14 @@ type CallbackType = () => void;
 const isErrorMessageObj = <T>(obj: T): obj is T & { message: unknown, code: unknown } => obj && 'message' in obj && 'code' in obj
 
 export const apiErrorHandler = (err: Errback, req: Request, res: Response, next: NextFunction) => {
-  logger.error(`err: ${JSON.stringify(err)}`);
-
   if ( err instanceof ApiError ) {
     logger.info(`request: url: ${req.url} params: ${JSON.stringify(req.params)} body: ${JSON.stringify(req.body)} - err: ${err.code} - ${err.message}`);
     res.status(err.code).json({ message: err.message });
     return;
   }
 
-  res.status(500).json({ message: 'something went wrong' });
+  logger.error(`uncaughtException: ${JSON.stringify(err)}`);
+  res.status(500).json({ message: 'Internal Server Error' });
 };
 
 /**
