@@ -12,11 +12,10 @@ type CallbackType = () => void;
 const isErrorMessageObj = <T>(obj: T): obj is T & { message: unknown, code: unknown } => obj && 'message' in obj && 'code' in obj
 
 export const apiErrorHandler = (err: Errback, req: Request, res: Response, next: NextFunction) => {
-  if (isErrorMessageObj(err)) {
-    logger.error(`error: status ${err.code} - ${err.message}`);
-  }
+  logger.error(`err: ${JSON.stringify(err)}`);
 
   if ( err instanceof ApiError ) {
+    logger.info(`request: url: ${req.url} params: ${JSON.stringify(req.params)} body: ${JSON.stringify(req.body)} - err: ${err.code} - ${err.message}`);
     res.status(err.code).json({ message: err.message });
     return;
   }
@@ -37,7 +36,7 @@ export const responceWrapper = async (res: Response, req: Request, cb: CallbackT
   } catch(err) {
     if (isErrorMessageObj(err)) {
       logger.error(`Unhandled Rejections Error: ${JSON.stringify(err)}`)
-      res.status(404).send({ message: err.message });
+      res.status(500).send({ message: err.message });
     }
   }
 }
