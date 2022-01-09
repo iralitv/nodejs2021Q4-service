@@ -1,7 +1,6 @@
 import { logger } from "./logger";
 import config from './common/config';
 
-export {};
 const app = require('./app');
 
 const { PORT } = config;
