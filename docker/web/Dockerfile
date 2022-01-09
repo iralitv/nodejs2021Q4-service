@@ -9,6 +9,4 @@ RUN npm install
 
 EXPOSE 4000 
 
-ENTRYPOINT ["src/server.ts"]
-
-CMD ["nodemon"]
+RUN npm start

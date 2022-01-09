@@ -5,9 +5,7 @@ services:
       context: .
       dockerfile: ./docker/web/Dockerfile
     ports:
-      - "8000:8000"
-    links: 
-      - "db:database"
+      - "4002:4000"
     networks:
       - my-network
   db:
@@ -15,9 +13,13 @@ services:
     build: ./docker/db
     ports:
       - "8001:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
     networks:
       - my-network
-
+  redis:
+    image: "redis:alpine"
 networks:
   my-network:
     external: true
