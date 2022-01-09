@@ -37,7 +37,7 @@ To create user-defined network run command
 ```
 docker network create my-network
 ```
-
+P.S.: if you define other name for created network (not "my-network"), you should change the name in `docker-compose.yml` file
 
 To create images and containers (with using docker-compose) run the following command:
 
