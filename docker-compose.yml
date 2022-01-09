@@ -8,6 +8,9 @@ services:
       - "4002:4000"
     networks:
       - my-network
+    restart: always
+    volumes:
+      - ./logs:/logs
   db:
     image: postgres
     build: ./docker/db
@@ -16,10 +19,15 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: example
+    volumes:
+     - .:/code
     networks:
       - my-network
   redis:
     image: "redis:alpine"
+volumes:
+  myapp:
+    external: true
 networks:
   my-network:
     external: true
