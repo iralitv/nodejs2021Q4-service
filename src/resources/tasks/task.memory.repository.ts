@@ -1,9 +1,15 @@
+import { getRepository } from 'typeorm';
+import { Board } from '../../entity/Board';
+import { Task } from '../../entity/Task';
 import { ITask } from './task.model';
 
-export {};
-const DB = require('../../database');
+// export {};
+// const DB = require('../../database');
 
-const TABLE = "Tasks";
+// const TABLE = "Tasks";
+
+const boardRepo = getRepository(Board);
+const taskRepo = getRepository(Task);
 
 export const ERROR_SOURCE: {[key: string]: string} = {
   BOARD: 'Board',
@@ -15,14 +21,14 @@ export const ERROR_SOURCE: {[key: string]: string} = {
  * @param boardId id of board for filtering Tasks string
  * @returns list of Task by Board id Array<ITask> | []
  */
-const getAll = (boardId: string): Array<ITask> | string => {
-  const board = DB.getEntityById('Boards', boardId);
+const getAll = (boardId: string): Promise<ITask[]> | string => {
+  const board = boardRepo.findOne(boardId);
 
   if (!board) {
     return ERROR_SOURCE.BOARD;
   }
 
-  return DB.getAllEntities(TABLE);
+  return taskRepo.find();
 }
 
 /**
@@ -32,14 +38,14 @@ const getAll = (boardId: string): Array<ITask> | string => {
  * @param taskId id of Task string
  * @returns task item ITask
  */
-const getById = (boardId: string, taskId: string): ITask | string => {
-  const board = DB.getEntityById('Boards', boardId);
+const getById = (boardId: string, taskId: string): Promise<ITask> | string => {
+  const board = boardRepo.findOne(boardId);
 
   if (!board) {
     return ERROR_SOURCE.BOARD;
   }
 
-  const task = DB.getEntityById(TABLE, taskId);
+  const task = taskRepo.findOne(taskId);
 
   if (!task) {
     return ERROR_SOURCE.TASK;
@@ -55,14 +61,24 @@ const getById = (boardId: string, taskId: string): ITask | string => {
  * @param data data for creating a new task ITask
  * @returns created task ITask
  */
-const create = (boardId: string, data: ITask): ITask | string => {
-  const board = DB.getEntityById('Boards', boardId);
+const create = (boardId: string, data: ITask): Promise<ITask> | string => {
+  const board = boardRepo.findOne(boardId);
 
   if (!board) {
     return ERROR_SOURCE.BOARD;
   }
 
-  return DB.createEntity(TABLE, data);
+  const task = new Task();
+  const { title, order, description, userId, boardId: taskBoardId, columnId } = data;
+
+  task.title = title;
+  task.order = order;
+  task.description = description;
+  task.userId = userId;
+  task.boardId = taskBoardId;
+  task.columnId = columnId;
+
+  return taskRepo.save(task);
 }
 
 /**
@@ -74,20 +90,21 @@ const create = (boardId: string, data: ITask): ITask | string => {
  * @param data data for updating an existing task ITask
  * @returns updated task ITask
  */
-const update = (boardId: string, taskId: string, data: ITask): ITask | string => {
-  const board = DB.getEntityById('Boards', boardId);
+const update = (boardId: string, taskId: string, data: ITask): Promise<ITask> | string => {
+  const board = boardRepo.findOne(boardId);
 
   if (!board) {
     return ERROR_SOURCE.BOARD;
   }
-  
-  const updatedTask = DB.updateEntity(TABLE, taskId, data);
-  
-  if (!updatedTask) {
+
+  const task = taskRepo.findOne(taskId);
+
+  if (!task) {
     return ERROR_SOURCE.TASK;
   }
 
-  return updatedTask;
+  taskRepo.update(taskId, { ...data });
+  return taskRepo.findOne(taskId);
 };
 
 /**
@@ -97,13 +114,13 @@ const update = (boardId: string, taskId: string, data: ITask): ITask | string =>
  * @returns void
  */
 const remove = (taskId: string) => {
-  const task = DB.getEntityById(TABLE, taskId);
+  const task = taskRepo.findOne(taskId);
 
   if (!task) {
     return;
   }
 
-  DB.removeEntity(TABLE, taskId);
+  taskRepo.delete(taskId)
 }
 
 module.exports = { getAll, getById, create, update, remove };

@@ -40,43 +40,43 @@ const db: DBType = {
   Tasks: [],
 }
 
-const dbServices: DBServicesType = {
-  /**
-   * Set null value for all Tasks for user
-   * @param user entity to be deleted IUser
-   * @returns void
-   */
-  removeUsersService: (user: TableDataItemType) => {
-    const updatedTasks = db.Tasks.map(task => {
-      if (task.userId === user.id) {
-        return { ...task, userId: null }
-      }
+// const dbServices: DBServicesType = {
+//   /**
+//    * Set null value for all Tasks for user
+//    * @param user entity to be deleted IUser
+//    * @returns void
+//    */
+//   removeUsersService: (user: TableDataItemType) => {
+//     const updatedTasks = db.Tasks.map(task => {
+//       if (task.userId === user.id) {
+//         return { ...task, userId: null }
+//       }
 
-      return task;
-    });
+//       return task;
+//     });
 
-    db.Tasks = updatedTasks;
-  },
-  /**
-   * Remove all Tasks of board
-   * @param board entity to be deleted IBoard
-   * @returns void
-   */
-  removeBoardsService: (board: TableDataItemType) => {
-    if (board) {
-      const filteredTasks = db.Tasks.filter((task: ITask) => task.boardId !== board.id);
+//     db.Tasks = updatedTasks;
+//   },
+//   /**
+//    * Remove all Tasks of board
+//    * @param board entity to be deleted IBoard
+//    * @returns void
+//    */
+//   removeBoardsService: (board: TableDataItemType) => {
+//     if (board) {
+//       const filteredTasks = db.Tasks.filter((task: ITask) => task.boardId !== board.id);
 
-      db.Tasks = filteredTasks;
-    }
-  },
-  /**
-   * TBD: something for task related object 
-   * @returns void
-   */
-  removeTasksService: () => {
-    // do nothing
-  },
-}
+//       db.Tasks = filteredTasks;
+//     }
+//   },
+//   /**
+//    * TBD: something for task related object 
+//    * @returns void
+//    */
+//   removeTasksService: () => {
+//     // do nothing
+//   },
+// }
 
 /**
    * Returns all records of table
@@ -137,7 +137,7 @@ const updateEntity = (table: TableDataNameType, id: string, data: TableDataItemT
 const removeEntity = (table: TableDataNameType, id: string): void => {
   const entity = getEntityById(table, id) || {};
 
-  dbServices[`remove${table}Service`](entity);
+  // dbServices[`remove${table}Service`](entity);
 
   const index = db[table].findIndex((item: TableDataItemType) => item.id === id);
 

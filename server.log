@@ -74,3 +74,10 @@
 2022-01-09T10:12:47.812Z - [INFO   ] - request: url: /boards/645faff3-1890-4526-97fd-c4c6e0b1cd20/tasks/a25662c8-d1dc-4e79-bf09-4fd22df75378 params: {} body: {} - err: 404 - Task with id a25662c8-d1dc-4e79-bf09-4fd22df75378 not found
 2022-01-09T10:12:47.816Z - [INFO   ] - request: url: /645faff3-1890-4526-97fd-c4c6e0b1cd20 params: {"id":"645faff3-1890-4526-97fd-c4c6e0b1cd20"} body: {} - response code: 200
 2022-01-09T10:13:07.112Z - [INFO   ] - App is running on http://localhost:4000
+2022-01-16T11:08:46.503Z - [INFO   ] - App is running on http://localhost:4000
+2022-01-16T11:37:10.709Z - [INFO   ] - App is running on http://localhost:4000
+2022-01-16T11:37:30.287Z - [INFO   ] - request: url: / params: {} body: {"name":"user","login":"login"} - response code: 200
+2022-01-16T12:11:46.646Z - [INFO   ] - request: url: / params: {} body: {"name":"user 2","login":"login 2"} - response code: 200
+2022-01-16T12:17:52.005Z - [INFO   ] - App is running on http://localhost:4000
+2022-01-16T12:18:06.780Z - [INFO   ] - App is running on http://localhost:4000
+2022-01-16T12:18:42.514Z - [INFO   ] - App is running on http://localhost:4000

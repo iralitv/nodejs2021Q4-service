@@ -1,29 +1,38 @@
+import { getRepository } from 'typeorm';
+import { User } from '../../entity/User';
 import { IUser } from './user.model';
 
-export {};
-const DB = require('../../database');
-
-const TABLE = "Users";
+// export {};
+// const DB = require('../../database');
+const userRepo = getRepository(User);
+// const TABLE = "Users";
 
 /**
  * Returns list of users or empty array
  * @returns list of users Array<IUser> | []
  */
-const getAll = (): Array<IUser> => DB.getAllEntities(TABLE);
+const getAll = (): Promise<IUser[]> => userRepo.find({ select: ['id', 'login', 'name'] });
 
 /**
  * Returns user according to id or Throws error, if user doesn't exist
  * @param id id of user string
  * @returns user item IUser
  */
-const getById = (id: string): IUser => DB.getEntityById(TABLE, id);
+const getById = (id: string): Promise<IUser> => userRepo.findOne(id);
 
 /**
  * Create user with data. Returns created user
  * @param data data for creating a new user IUser
  * @returns created user IUser
  */
-const create = (data: IUser) => DB.createEntity(TABLE, data);
+const create = (data: IUser) => {
+  const user = new User();
+  const { name, login } = data;
+  user.name = name;
+  user.login = login;
+
+  return userRepo.save(user);
+};
 
 /**
  * Update corresponding user (finds user by id) with data. 
@@ -32,7 +41,11 @@ const create = (data: IUser) => DB.createEntity(TABLE, data);
  * @param data data for updating an existing user IUser
  * @returns updated user IUser
  */
-const update = (id: string, data: IUser): IUser => DB.updateEntity(TABLE, id, data);
+const update = (id: string, data: IUser): Promise<IUser> => {
+  const { name, login } = data;
+  userRepo.update(id, { name, login });
+  return userRepo.findOne(id);
+};
 
 /**
  * Delete corresponding user (finds user by id). 
@@ -41,13 +54,13 @@ const update = (id: string, data: IUser): IUser => DB.updateEntity(TABLE, id, da
  * @returns void
  */
 const remove = (id: string) => {
-  const user: IUser = DB.getEntityById(TABLE, id);
+  const user: Promise<User> = userRepo.findOne(id);
 
   if (!user) {
     return null;
   }
 
-  DB.removeEntity(TABLE, id);
+  userRepo.delete(id)
 
   return user;
 }
